@@ -71,3 +71,20 @@ export const sendMessage = async (req, res) => {
     }
 };
 
+export const deleteMessage = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const message = await Message.findById(id);
+        if (!message) {
+            return res.status(404).json({ message: "Message not found" });
+        }
+        if (message.sender.toString() !== req.user._id.toString()) {
+            return res.status(401).json({ message: "You are not authorized to delete this message" });
+        }
+        await Message.findByIdAndDelete(id); // Deletes the message from MongoDB
+        res.status(200).json({ message: 'Message deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to delete the message' });
+    }
+}
+

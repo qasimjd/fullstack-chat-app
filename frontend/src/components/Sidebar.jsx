@@ -26,7 +26,7 @@ const Sidebar = () => {
                     <Users className="size-6" />
                     <span className="font-medium hidden lg:block">Contacts</span>
                 </div>
-                <div className="mt-3 hidden lg:flex items-center gap-2">
+                <div className="mt-3 hidden lg:flex items-center gap-2 ">
                     <label className="cursor-pointer flex items-center gap-2">
                         <input 
                             type="checkbox" 
@@ -41,7 +41,7 @@ const Sidebar = () => {
             </div>
 
             {/* User List */}
-            <div className="overflow-y-auto w-full py-3">
+            <div className="overflow-y-auto w-full py-3" style={{ scrollbarWidth: "none" }}>
                 {filterUsers.map((user) => (
                     <button
                         key={user._id}

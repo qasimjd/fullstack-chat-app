@@ -74,16 +74,20 @@ export const logout = (req, res) => {
 
 export const updateProfile = async (req, res) => {
     try {
-        const { profilePic } = req.body;
+        const { profilePic, fullname } = req.body;
         const userId = req.user._id;
-        if (!profilePic) {
+        if (!profilePic && !fullname) {
             return res.status(400).json({ message: 'Please select an image' });
         }
 
-        const uploadResponse = await cloudinary.uploader.upload(profilePic);
+        let updateData = { fullname };
+        if (profilePic) {
+            const uploadResponse = await cloudinary.uploader.upload(profilePic);
+            updateData.profilePic = uploadResponse.secure_url;
+        }
         const updatedUser = await User.findByIdAndUpdate(
           userId,
-          { profilePic: uploadResponse.secure_url },
+          updateData,
           { new: true }
         );
     
